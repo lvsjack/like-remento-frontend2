@@ -105,7 +105,31 @@ const config = {
   				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
-  			}
+  			},
+        base: {
+          50: '#f0f0f0',
+          100: '#e0e0e0',
+          200: '#c2c2c2',
+          300: '#a3a3a3',
+          400: '#89888d',
+          500: '#666666',
+          600: '#0f0e11',
+          700: '#0f0e11',
+          800: '#0f0e11',
+          900: '#0f0e11'
+        },
+        grey: {
+          50: '#ebebef',
+          100: '#ebebef',
+          200: '#ebebef',
+          300: '#ebebef',
+          400: '#ebebef',
+          500: '#ebebf2',
+          600: '#ebebf2',
+          700: '#ebebf2',
+          800: '#ebebf2',
+          900: '#ebebf2'
+        }
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

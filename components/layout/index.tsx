@@ -41,7 +41,7 @@ const DashboardLayout: React.FC<Props> = (props: Props) => {
                 </div>
                 <Navbar brandText={getActiveRoute(routes, pathname)} />
                 <div className="p-3">
-                  <Footer />
+                  {/* <Footer /> */}
                 </div>
               </main>
             </div>

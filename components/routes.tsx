@@ -12,9 +12,15 @@ import {
 } from 'react-icons/hi2';
 
 export const routes: IRoute[] = [
+  // {
+  //   name: 'Main Dashboard',
+  //   path: '/dashboard/main',
+  //   icon: <HiOutlineHome className="-mt-[7px] h-4 w-4 stroke-2 text-inherit" />,
+  //   collapse: false
+  // },
   {
-    name: 'Main Dashboard',
-    path: '/dashboard/main',
+    name: 'Stories',
+    path: '/dashboard2/main',
     icon: <HiOutlineHome className="-mt-[7px] h-4 w-4 stroke-2 text-inherit" />,
     collapse: false
   },

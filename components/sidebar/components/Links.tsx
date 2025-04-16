@@ -61,7 +61,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
             <div
               className={`flex w-full max-w-full items-center justify-between rounded-lg py-3 pl-8 ${
                 activeRoute(route.path.toLowerCase())
-                  ? 'bg-zinc-950 font-semibold text-white dark:bg-white dark:text-zinc-950'
+                  ? 'bg-grey-500 font-semibold !text-base-600 dark:bg-white dark:text-zinc-950'
                   : 'font-medium text-zinc-950 dark:text-zinc-400'
               }`}
             >
@@ -75,7 +75,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                     <div
                       className={`text mr-3 mt-1.5 ${
                         activeRoute(route.path.toLowerCase())
-                          ? 'font-semibold text-white dark:text-zinc-950'
+                          ? 'font-semibold text-base-600 dark:text-zinc-950'
                           : 'text-zinc-950 dark:text-white'
                       } `}
                     >
@@ -84,7 +84,7 @@ export function SidebarLinks(props: SidebarLinksProps) {
                     <p
                       className={`mr-auto text-sm ${
                         activeRoute(route.path.toLowerCase())
-                          ? 'font-semibold text-white dark:text-zinc-950'
+                          ? 'font-semibold text-base-600 dark:text-zinc-950'
                           : 'font-medium text-zinc-950 dark:text-zinc-400'
                       }`}
                     >

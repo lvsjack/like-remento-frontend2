@@ -88,7 +88,7 @@ function Sidebar(props: SidebarProps) {
             {/* Free Horizon Card    */}
             <div className="mb-9 mt-7">
               <div className="flex justify-center">
-                <SidebarCard />
+                {/* <SidebarCard /> */}
               </div>
 
               {/* Sidebar profile info */}
