@@ -1,13 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Avatar } from '@/components/ui/avatar';
-import { Card } from '@/components/ui/card';
 import { PromptCell } from '@/components/PromptCell';
 import { PlusCircle } from 'lucide-react';
 import DashboardLayout from '@/components/layout';
 import { UserDetails } from '@/types/types';
 import { User } from '@supabase/supabase-js';
+import { useModal } from '@/components/modal/modal-context';
 
 interface Prompt {
   id: string;
@@ -27,6 +26,8 @@ interface Props {
 }
 
 export default function Prompts(props: Props) {
+  const { showModal } = useModal();
+
   const prompts: Prompt[] = [
     // 示例数据
     {
@@ -54,8 +55,31 @@ export default function Prompts(props: Props) {
       <div className="p-6">
         <div className="flex items-center justify-end mb-6">
           <div className="flex gap-2">
-            <Button variant="outline">Invite</Button>
-            <Button className="gap-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                showModal('invite', {
+                  onSubmit: (email) => {
+                    console.log('Invite email:', email);
+                  }
+                });
+              }}
+            >
+              Invite
+            </Button>
+            <Button
+              className="gap-2"
+              onClick={() => {
+                showModal('addPrompt', {
+                  onSubmit: (data) => {
+                    // 处理提交的数据
+                    console.log('Prompt data:', data);
+                    // data.type 可能是 'photo' 或 'question'
+                    // data.content 包含问题文本或照片信息
+                  }
+                });
+              }}
+            >
               <PlusCircle className="h-4 w-4" />
               Add prompts
             </Button>

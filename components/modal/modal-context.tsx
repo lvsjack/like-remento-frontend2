@@ -4,8 +4,15 @@ import React, { createContext, useContext, useState } from 'react';
 import { Dialog } from '@/components/ui/modal';
 import { ConfirmModal, AlertModal, FormModal } from './modal-types';
 import { PromptModal } from './prompt-modal';
+import { InviteModal } from './invite-modal';
 
-type ModalType = 'confirm' | 'alert' | 'form' | 'custom' | 'addPrompt';
+type ModalType =
+  | 'confirm'
+  | 'alert'
+  | 'form'
+  | 'custom'
+  | 'addPrompt'
+  | 'invite';
 
 interface ModalContextType {
   showModal: (type: ModalType, props: any) => void;
@@ -51,12 +58,18 @@ interface AddPromptModalProps {
   onSubmit: (data: { type: string; content: string }) => void;
 }
 
+interface InviteModalProps {
+  onSubmit: (email: string) => void;
+  onClose?: () => void;
+}
+
 type ModalProps =
   | (ConfirmModalProps & { type: 'confirm' })
   | (AlertModalProps & { type: 'alert' })
   | (FormModalProps & { type: 'form' })
   | (CustomModalProps & { type: 'custom' })
-  | (AddPromptModalProps & { type: 'addPrompt' });
+  | (AddPromptModalProps & { type: 'addPrompt' })
+  | (InviteModalProps & { type: 'invite' });
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -97,6 +110,16 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
             onClose={hideModal}
             onSubmit={(data) => {
               modalState.props.onSubmit?.(data);
+              hideModal();
+            }}
+          />
+        );
+      case 'invite':
+        return (
+          <InviteModal
+            onClose={hideModal}
+            onSubmit={(email) => {
+              modalState.props.onSubmit?.(email);
               hideModal();
             }}
           />
