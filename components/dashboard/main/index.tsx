@@ -2,6 +2,7 @@
 'use client';
 
 import DashboardLayout from '@/components/layout';
+import { useModal } from '@/components/modal/modal-context';
 import { StoryCard } from '@/components/StroyCard';
 import { User } from '@supabase/supabase-js';
 
@@ -30,6 +31,8 @@ const STORY_CARDS = [
 ];
 
 export default function Dashboard(props: Props) {
+  const { showModal } = useModal();
+
   return (
     <DashboardLayout
       user={props.user}
@@ -59,7 +62,13 @@ export default function Dashboard(props: Props) {
             <button
               className="group relative flex h-[260px] transform cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-white text-center transition-all duration-200 hover:-translate-y-1 hover:border-gray-300 hover:bg-gray-50 hover:shadow-lg"
               onClick={() => {
-                /* 添加新提示的处理函数 */
+                showModal('form', {
+                  title: 'Create New Prompt',
+                  description: 'Create a new AI prompt template',
+                  onSubmit: (data: any) => {
+                    console.log(data);
+                  }
+                });
               }}
             >
               <div className="flex flex-col items-center space-y-4">
