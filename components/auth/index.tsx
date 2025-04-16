@@ -45,10 +45,10 @@ export default function DefaultAuthLayout(props: DefaultAuthLayoutProps) {
                 <HiBolt className="h-9 w-9" />
               </div>
               <h5 className="text-4xl font-bold leading-5 text-white">
-                Horizon AI
+                Momorey AI
               </h5>
             </div>
-            <div
+            {/* <div
               className={`flex w-full flex-col items-center justify-center text-2xl font-bold text-white`}
             >
               <h4 className="mb-5 flex w-[600px] items-center justify-center rounded-md text-center text-2xl font-bold">
@@ -58,7 +58,7 @@ export default function DefaultAuthLayout(props: DefaultAuthLayoutProps) {
               <h5 className="text-xl font-medium leading-5 text-zinc-300">
                 Sofia Davis - CTO Horizon AI
               </h5>
-            </div>
+            </div> */}
           </div>
         </div>
         <Footer />
