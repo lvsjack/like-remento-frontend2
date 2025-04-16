@@ -1,107 +1,18 @@
-'use client';
+import Prompts from '@/components/dashboard/prompts';
+import { redirect } from 'next/navigation';
+import { getUserDetails, getUser } from '@/utils/supabase/queries';
+import { createClient } from '@/utils/supabase/server';
 
-import { Button } from '@/components/ui/button';
-import { Avatar } from '@/components/ui/avatar';
-import { Card } from '@/components/ui/card';
-import { PromptCell } from '@/components/PromptCell';
-import { PlusCircle } from 'lucide-react';
-import DashboardLayout from '@/components/layout';
-import { UserDetails } from '@/types/types';
-import { User } from '@supabase/supabase-js';
+export default async function PromptsPage() {
+  const supabase = createClient();
+  const [user, userDetails] = await Promise.all([
+    getUser(supabase),
+    getUserDetails(supabase)
+  ]);
 
-interface Prompt {
-  id: string;
-  content: string;
-  createdAt: string;
-  user: {
-    id: string;
-    name: string;
-    image: string;
-  };
-  status: 'in_progress' | 'to_be_sent';
-}
+  if (!user) {
+    return redirect('/dashboard/signin');
+  }
 
-interface Props {
-  user: User | null | undefined;
-  userDetails: UserDetails | null;
-}
-
-export default function Prompts(props: Props) {
-  const prompts: Prompt[] = [
-    // 示例数据
-    {
-      id: '1',
-      content:
-        'How did your relationship with your parents change as you got older?',
-      createdAt: '9 hours ago',
-      user: {
-        id: '1',
-        name: 'User 1',
-        image: 'https://avatar.iran.liara.run/public/39'
-      },
-      status: 'in_progress'
-    }
-    // ... 其他提示数据
-  ];
-
-  return (
-    <DashboardLayout
-      user={props.user}
-      userDetails={props.userDetails}
-      title="Dashboard"
-      description="Your AI prompts dashboard"
-    >
-      <div className="p-6">
-        <div className="flex items-center justify-end mb-6">
-          <div className="flex gap-2">
-            <Button variant="outline">Invite</Button>
-            <Button className="gap-2">
-              <PlusCircle className="h-4 w-4" />
-              Add prompts
-            </Button>
-          </div>
-        </div>
-
-        <div className="space-y-6">
-          <section>
-            <h2 className="text-lg font-semibold mb-4">In progress (2)</h2>
-            <div className="space-y-4">
-              {prompts
-                .filter((prompt) => prompt.status === 'in_progress')
-                .map((prompt) => (
-                  <PromptCell
-                    key={prompt.id}
-                    prompt={prompt}
-                    actionButton={
-                      <Button variant="outline" size="sm">
-                        Record
-                      </Button>
-                    }
-                  />
-                ))}
-            </div>
-          </section>
-
-          <section>
-            <h2 className="text-lg font-semibold mb-4">To be sent (2)</h2>
-            <div className="space-y-4">
-              {prompts
-                .filter((prompt) => prompt.status === 'to_be_sent')
-                .map((prompt) => (
-                  <PromptCell
-                    key={prompt.id}
-                    prompt={prompt}
-                    actionButton={
-                      <Button variant="outline" size="sm">
-                        Send now
-                      </Button>
-                    }
-                  />
-                ))}
-            </div>
-          </section>
-        </div>
-      </div>
-    </DashboardLayout>
-  );
+  return <Prompts user={user} userDetails={userDetails} />;
 }
