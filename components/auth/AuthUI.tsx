@@ -15,23 +15,23 @@ export default function AuthUI(props: any) {
         {props.viewProp === 'signup'
           ? 'Sign Up'
           : props.viewProp === 'forgot_password'
-          ? 'Forgot Password'
-          : props.viewProp === 'update_password'
-          ? 'Update Password'
-          : props.viewProp === 'email_signin'
-          ? 'Email Sign In'
-          : 'Sign In'}
+            ? 'Forgot Password'
+            : props.viewProp === 'update_password'
+              ? 'Update Password'
+              : props.viewProp === 'email_signin'
+                ? 'Email Sign In'
+                : 'Sign In'}
       </p>
       <p className="mb-2.5 mt-2.5 font-normal text-zinc-950 dark:text-zinc-400">
         {props.viewProp === 'signup'
           ? 'Enter your email and password to sign up!'
           : props.viewProp === 'forgot_password'
-          ? 'Enter your email to get a passoword reset link!'
-          : props.viewProp === 'update_password'
-          ? 'Choose a new password for your account!'
-          : props.viewProp === 'email_signin'
-          ? 'Enter your email to get a magic link!'
-          : 'Enter your email and password to sign in!'}
+            ? 'Enter your email to get a passoword reset link!'
+            : props.viewProp === 'update_password'
+              ? 'Choose a new password for your account!'
+              : props.viewProp === 'email_signin'
+                ? 'Enter your email to get a magic link!'
+                : 'Enter your email and password to sign in!'}
       </p>
       {props.viewProp !== 'update_password' &&
         props.viewProp !== 'signup' &&

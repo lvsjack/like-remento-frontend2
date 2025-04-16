@@ -20,7 +20,7 @@ const relevantEvents = new Set([
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const sig = headers().get('Stripe-Signature') as string;
+  const sig = (await headers()).get('Stripe-Signature') as string;
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event: Stripe.Event;
 
@@ -34,6 +34,10 @@ export async function POST(req: Request) {
 
   if (relevantEvents.has(event.type)) {
     try {
+      let subscription: Stripe.Subscription;
+      let checkoutSession: Stripe.Checkout.Session;
+      let subscriptionId: string;
+
       switch (event.type) {
         case 'product.created':
         case 'product.updated':
@@ -46,7 +50,7 @@ export async function POST(req: Request) {
         case 'customer.subscription.created':
         case 'customer.subscription.updated':
         case 'customer.subscription.deleted':
-          const subscription = event.data.object as Stripe.Subscription;
+          subscription = event.data.object as Stripe.Subscription;
           await manageSubscriptionStatusChange(
             subscription.id,
             subscription.customer as string,
@@ -54,11 +58,11 @@ export async function POST(req: Request) {
           );
           break;
         case 'checkout.session.completed':
-          const checkoutSession = event.data.object as Stripe.Checkout.Session;
+          checkoutSession = event.data.object as Stripe.Checkout.Session;
           if (checkoutSession.mode === 'subscription') {
-            const subscriptionId = checkoutSession.subscription;
+            subscriptionId = checkoutSession.subscription as string;
             await manageSubscriptionStatusChange(
-              subscriptionId as string,
+              subscriptionId,
               checkoutSession.customer as string,
               true
             );

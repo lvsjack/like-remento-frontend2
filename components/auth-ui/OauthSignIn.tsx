@@ -1,9 +1,9 @@
 'use client';
 
-import {Button} from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import { signInWithOAuth } from '@/utils/auth-helpers/client';
 import { type Provider } from '@supabase/supabase-js';
-import { FcGoogle } from "react-icons/fc";
+import { FcGoogle } from 'react-icons/fc';
 import { useState } from 'react';
 import { Input } from '../ui/input';
 
@@ -42,7 +42,7 @@ export default function OauthSignIn() {
           <Button
             variant="outline"
             type="submit"
-            className="w-full text-zinc-950 py-6 dark:text-white" 
+            className="w-full text-zinc-950 py-6 dark:text-white"
           >
             <span className="mr-2">{provider.icon}</span>
             <span>{provider.displayName}</span>

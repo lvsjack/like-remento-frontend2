@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import { Card } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Clock } from 'lucide-react';

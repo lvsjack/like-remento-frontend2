@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Avatar } from '@/components/ui/avatar';
 import { AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-import { X } from 'lucide-react';
 
 interface InviteModalProps {
   onSubmit: (email: string) => void;
