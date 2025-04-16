@@ -1,8 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { Mic, Video } from 'lucide-react';
+import { Clock, MoreVertical } from 'lucide-react';
 import Image from 'next/image';
 
 interface StoryCardProps {
@@ -24,51 +24,70 @@ export function StoryCard({
   className
 }: StoryCardProps) {
   return (
-    <Card className={cn('w-full bg-grey-500', className)}>
-      <CardHeader className="p-4">
-        {/* Image Container */}
-        <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl">
-          <Image
-            src={imageUrl}
-            alt={title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-          {/* Audio Button */}
-          <Button
-            size="icon"
-            variant="secondary"
-            className="absolute left-4 top-4 h-9 w-9 rounded-full bg-white/90 backdrop-blur-sm"
-          >
-            <Mic className="h-5 w-5" />
-          </Button>
-          {/* Video Button */}
-          <Button
-            size="icon"
-            variant="secondary"
-            className="absolute right-4 top-4 h-9 w-9 rounded-full bg-white/90 backdrop-blur-sm"
-          >
-            <Video className="h-5 w-5" />
-          </Button>
-        </div>
-      </CardHeader>
+    <Card
+      className={cn(
+        'group relative h-[260px] w-full overflow-hidden bg-white transition-all duration-300',
+        'hover:shadow-[0_0_50px_0_rgba(0,0,0,0.1)]',
+        className
+      )}
+    >
+      {/* Top Actions */}
+      <div className="absolute right-4 top-4 z-10">
+        <Button
+          size="icon"
+          variant="ghost"
+          className="h-8 w-8 rounded-full bg-white/80 backdrop-blur-sm"
+        >
+          <MoreVertical className="h-4 w-4" />
+        </Button>
+      </div>
 
-      <CardContent className="space-y-4 p-4 pt-0">
-        <p className="text-muted-foreground">{title}</p>
+      {/* Image Section */}
+      <div className="relative h-[65%] w-full">
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          className="transform object-cover object-center"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          priority
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white" />
+      </div>
 
-        {/* Author and Date */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={author.avatar} alt={author.name} />
-              <AvatarFallback>{author.name[0]}</AvatarFallback>
-            </Avatar>
-            <span className="font-medium text-base-600">{author.name}</span>
+      {/* Content Section */}
+      <div className="relative flex h-[35%] flex-col justify-between p-4">
+        {/* Title */}
+        <h3 className="line-clamp-2 text-base font-semibold leading-tight text-gray-900">
+          {title}
+        </h3>
+
+        {/* Author Info */}
+        <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+          <div className="flex items-center gap-3 justify-between w-full">
+            <div className="flex items-center gap-2">
+              <Avatar className="h-7 w-7 border-2 border-white shadow-sm">
+                <AvatarImage src={author.avatar} alt={author.name} />
+                <AvatarFallback className="bg-gradient-to-br from-violet-500 to-purple-500 text-white">
+                  {author.name[0]}
+                </AvatarFallback>
+              </Avatar>
+              <div className="text-sm font-medium text-gray-900">
+                {author.name}
+              </div>
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <Clock className="h-3 w-3" />
+                <span>{date}</span>
+              </div>
+            </div>
           </div>
-          <span className="text-sm text-muted-foreground">{date}</span>
         </div>
-      </CardContent>
+      </div>
+
+      {/* Hover Overlay */}
+      <div className="absolute inset-0 bg-black/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
     </Card>
   );
 }
