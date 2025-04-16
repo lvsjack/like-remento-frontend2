@@ -2,6 +2,7 @@ import SupabaseProvider from './supabase-provider';
 import { PropsWithChildren } from 'react';
 import '@/styles/globals.css';
 import { ThemeProvider } from './theme-provider';
+import { ModalProvider } from '@/components/modal/modal-context';
 
 export const dynamic = 'force-dynamic';
 
@@ -73,7 +74,9 @@ export default function RootLayout({
       <body id={'root'} className="loading bg-white">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SupabaseProvider>
-            <main id="skip">{children}</main>
+            <ModalProvider>
+              <main id="skip">{children}</main>
+            </ModalProvider>
           </SupabaseProvider>
         </ThemeProvider>
       </body>
