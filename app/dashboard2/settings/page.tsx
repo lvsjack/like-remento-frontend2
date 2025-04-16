@@ -1,4 +1,4 @@
-import Settings from '@/components/dashboard/settings';
+import Settings from '@/components/dashboard/settings2';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { getUserDetails, getUser } from '@/utils/supabase/queries';
