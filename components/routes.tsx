@@ -25,6 +25,14 @@ export const routes: IRoute[] = [
     collapse: false
   },
   {
+    name: 'Prompts',
+    path: '/dashboard2/prompts',
+    icon: (
+      <HiOutlineDocumentText className="-mt-[7px] h-4 w-4 stroke-2 text-inherit" />
+    ),
+    collapse: false
+  },
+  {
     name: 'AI Chat',
     path: '/dashboard/ai-chat',
     icon: (

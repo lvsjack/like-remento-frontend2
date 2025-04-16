@@ -5,6 +5,7 @@ const nextConfig = {
       'images.unsplash.com',
       'i.ibb.co',
       'scontent.fotp8-1.fna.fbcdn.net',
+      'avatar.iran.liara.run'
     ],
     remotePatterns: [
       {
