@@ -1,19 +1,19 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
-import { Mic, Video } from "lucide-react"
-import Image from "next/image"
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { Mic, Video } from 'lucide-react';
+import Image from 'next/image';
 
 interface StoryCardProps {
-  imageUrl: string
-  title: string
+  imageUrl: string;
+  title: string;
   author: {
-    name: string
-    avatar: string
-  }
-  date: string
-  className?: string
+    name: string;
+    avatar: string;
+  };
+  date: string;
+  className?: string;
 }
 
 export function StoryCard({
@@ -21,10 +21,10 @@ export function StoryCard({
   title,
   author,
   date,
-  className,
+  className
 }: StoryCardProps) {
   return (
-    <Card className={cn("w-full bg-grey-500", className)}>
+    <Card className={cn('w-full bg-grey-500', className)}>
       <CardHeader className="p-4">
         {/* Image Container */}
         <div className="relative aspect-[16/9] w-full overflow-hidden rounded-xl">
@@ -55,10 +55,8 @@ export function StoryCard({
       </CardHeader>
 
       <CardContent className="space-y-4 p-4 pt-0">
-        <p className="text-muted-foreground">
-          {title}
-        </p>
-        
+        <p className="text-muted-foreground">{title}</p>
+
         {/* Author and Date */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -68,11 +66,9 @@ export function StoryCard({
             </Avatar>
             <span className="font-medium text-base-600">{author.name}</span>
           </div>
-          <span className="text-sm text-muted-foreground">
-            {date}
-          </span>
+          <span className="text-sm text-muted-foreground">{date}</span>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
