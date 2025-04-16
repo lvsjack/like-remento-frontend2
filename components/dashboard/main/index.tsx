@@ -63,9 +63,13 @@ export default function Dashboard(props: Props) {
               className="group relative flex h-[260px] transform cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-200 bg-white text-center transition-all duration-200 hover:-translate-y-1 hover:border-gray-300 hover:bg-gray-50 hover:shadow-lg"
               onClick={() => {
                 /* 添加新提示的处理函数 */
-                showModal('form', {
-                  title: 'Add New Prompt',
-                  description: 'Create a new AI prompt template'
+                showModal('addPrompt', {
+                  onSubmit: (data) => {
+                    // 处理提交的数据
+                    console.log('Prompt data:', data);
+                    // data.type 可能是 'photo' 或 'question'
+                    // data.content 包含问题文本或照片信息
+                  }
                 });
               }}
             >

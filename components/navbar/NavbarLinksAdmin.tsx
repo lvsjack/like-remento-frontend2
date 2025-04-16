@@ -65,7 +65,7 @@ export default function HeaderLinks(props: { [x: string]: any }) {
       </Button>
 
       {/* Dropdown Menu */}
-      <DropdownMenu>
+      {/* <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
             variant="outline"
@@ -96,7 +96,7 @@ export default function HeaderLinks(props: { [x: string]: any }) {
             </Button>
           </a>
         </DropdownMenuContent>
-      </DropdownMenu>
+      </DropdownMenu> */}
 
       <Button
         onClick={(e) => handleSignOut(e)}

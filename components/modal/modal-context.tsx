@@ -3,8 +3,9 @@
 import React, { createContext, useContext, useState } from 'react';
 import { Dialog } from '@/components/ui/modal';
 import { ConfirmModal, AlertModal, FormModal } from './modal-types';
+import { PromptModal } from './prompt-modal';
 
-type ModalType = 'confirm' | 'alert' | 'form' | 'custom';
+type ModalType = 'confirm' | 'alert' | 'form' | 'custom' | 'addPrompt';
 
 interface ModalContextType {
   showModal: (type: ModalType, props: any) => void;
@@ -46,11 +47,16 @@ interface CustomModalProps {
   content: React.ReactNode;
 }
 
+interface AddPromptModalProps {
+  onSubmit: (data: { type: string; content: string }) => void;
+}
+
 type ModalProps =
   | (ConfirmModalProps & { type: 'confirm' })
   | (AlertModalProps & { type: 'alert' })
   | (FormModalProps & { type: 'form' })
-  | (CustomModalProps & { type: 'custom' });
+  | (CustomModalProps & { type: 'custom' })
+  | (AddPromptModalProps & { type: 'addPrompt' });
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
 
@@ -75,16 +81,36 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
     setModalState({ isOpen: false, type: null, props: {} });
   };
 
+  const renderModalContent = () => {
+    switch (modalState.type) {
+      case 'confirm':
+        return <ConfirmModal {...modalState.props} />;
+      case 'alert':
+        return <AlertModal {...modalState.props} />;
+      case 'form':
+        return <FormModal {...modalState.props} />;
+      case 'custom':
+        return modalState.props.content;
+      case 'addPrompt':
+        return (
+          <PromptModal
+            onClose={hideModal}
+            onSubmit={(data) => {
+              modalState.props.onSubmit?.(data);
+              hideModal();
+            }}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <ModalContext.Provider value={{ showModal, hideModal, modalState }}>
       {children}
       <Dialog open={modalState.isOpen} onOpenChange={hideModal}>
-        {modalState.type === 'confirm' && (
-          <ConfirmModal {...modalState.props} />
-        )}
-        {modalState.type === 'alert' && <AlertModal {...modalState.props} />}
-        {modalState.type === 'form' && <FormModal {...modalState.props} />}
-        {modalState.type === 'custom' && modalState.props.content}
+        {renderModalContent()}
       </Dialog>
     </ModalContext.Provider>
   );
