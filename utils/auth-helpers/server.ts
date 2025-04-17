@@ -7,7 +7,7 @@ import { getURL, getErrorRedirect, getStatusRedirect } from '@/utils/helpers';
 import { getAuthTypes } from '@/utils/auth-helpers/settings';
 
 function isValidEmail(email: string) {
-  var regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
   return regex.test(email);
 }
 
@@ -36,6 +36,8 @@ export async function signInWithEmail(formData: FormData) {
   const cookieStore = cookies();
   const callbackURL = getURL('/auth/callback');
 
+  console.log('1. Generated callback URL:', callbackURL);
+
   const email = String(formData.get('email')).trim();
   let redirectPath: string;
 
@@ -48,38 +50,70 @@ export async function signInWithEmail(formData: FormData) {
   }
 
   const supabase = createClient();
-  let options = {
+  const options = {
     emailRedirectTo: callbackURL,
-    shouldCreateUser: true
+    shouldCreateUser: true,
+    lifetime: 900 // 增加到 15 分钟
   };
 
-  // If allowPassword is false, do not create a new user
-  const { allowPassword } = getAuthTypes();
-  if (allowPassword) options.shouldCreateUser = false;
-  const { data, error } = await supabase.auth.signInWithOtp({
-    email,
-    options: options
+  console.log('2. Sign in options:', {
+    email: email.slice(0, 3) + '***',
+    callbackURL,
+    options
   });
 
-  if (error) {
+  const { allowPassword } = getAuthTypes();
+  if (allowPassword) options.shouldCreateUser = false;
+
+  try {
+    const { data, error } = await supabase.auth.signInWithOtp({
+      email,
+      options: options
+    });
+
+    console.log('3. Magic link generation result:', {
+      success: !!data,
+      hasError: !!error,
+      errorMessage: error?.message
+    });
+
+    if (error) {
+      redirectPath = getErrorRedirect(
+        '/dashboard/signin/email_signin',
+        'You could not be signed in.',
+        error.message
+      );
+    } else if (data) {
+      try {
+        cookieStore.set('preferredSignInView', 'email_signin', {
+          path: '/',
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'lax'
+        });
+        console.log('4. Cookie set successfully');
+      } catch (e) {
+        console.error('5. Cookie set error:', e);
+      }
+
+      redirectPath = getStatusRedirect(
+        '/dashboard/signin/email_signin',
+        'Success!',
+        'Please check your email for a magic link. You may now close this tab.',
+        true
+      );
+    } else {
+      redirectPath = getErrorRedirect(
+        '/dashboard/signin/email_signin',
+        'Hmm... Something went wrong.',
+        'You could not be signed in.'
+      );
+    }
+  } catch (e) {
+    console.error('6. Unexpected error:', e);
     redirectPath = getErrorRedirect(
       '/dashboard/signin/email_signin',
-      'You could not be signed in.',
-      error.message
-    );
-  } else if (data) {
-    cookieStore.set('preferredSignInView', 'email_signin', { path: '/' });
-    redirectPath = getStatusRedirect(
-      '/dashboard/signin/email_signin',
-      'Success!',
-      'Please check your email for a magic link. You may now close this tab.',
-      true
-    );
-  } else {
-    redirectPath = getErrorRedirect(
-      '/dashboard/signin/email_signin',
-      'Hmm... Something went wrong.',
-      'You could not be signed in.'
+      'Unexpected Error',
+      'An error occurred while generating the magic link.'
     );
   }
 
@@ -89,7 +123,6 @@ export async function signInWithEmail(formData: FormData) {
 export async function requestPasswordUpdate(formData: FormData) {
   const callbackURL = getURL('/auth/reset_password');
 
-  // Get form data
   const email = String(formData.get('email')).trim();
   let redirectPath: string;
 
@@ -227,7 +260,6 @@ export async function updatePassword(formData: FormData) {
   const passwordConfirm = String(formData.get('passwordConfirm')).trim();
   let redirectPath: string;
 
-  // Check that the password and confirmation match
   if (password !== passwordConfirm) {
     redirectPath = getErrorRedirect(
       '/dashboard/signin/update_password',
@@ -265,10 +297,8 @@ export async function updatePassword(formData: FormData) {
 }
 
 export async function updateEmail(formData: FormData) {
-  // Get form data
   const newEmail = String(formData.get('newEmail')).trim();
 
-  // Check that the email is valid
   if (!isValidEmail(newEmail)) {
     return getErrorRedirect(
       '/dashboard/settings',
@@ -310,7 +340,6 @@ export async function updateEmail(formData: FormData) {
 }
 
 export async function updateName(formData: FormData) {
-  // Get form data
   const fullName = String(formData.get('fullName')).trim();
 
   const supabase = createClient();

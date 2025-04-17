@@ -2,8 +2,12 @@ import { type NextRequest } from 'next/server';
 import { updateSession } from '@/utils/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
+  console.log('Middleware accessed:', {
+    url: request.url,
+    pathname: request.nextUrl.pathname,
+    timestamp: new Date().toISOString()
+  });
   return await updateSession(request);
-  
 }
 
 export const config = {

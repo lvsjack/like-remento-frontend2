@@ -6,13 +6,24 @@ import { getErrorRedirect, getStatusRedirect } from '@/utils/helpers';
 export async function GET(request: NextRequest) {
   // The `/auth/callback` route is required for the server-side auth flow implemented
   // by the `@supabase/ssr` package. It exchanges an auth code for the user's session.
+  console.log('Callback route accessed', request.url);
   const requestUrl = new URL(request.url);
+  console.log('Code param:', requestUrl.searchParams.get('code'));
   const code = requestUrl.searchParams.get('code');
 
   if (code) {
     const supabase = createClient();
 
+    console.log('xxxxxxxxxxxxxxxxxxxxxx');
     const { error } = await supabase.auth.exchangeCodeForSession(code);
+    console.error(
+      JSON.stringify({
+        level: 'error',
+        error: error,
+        message: 'Magic link authentication failed',
+        timestamp: new Date().toISOString()
+      })
+    );
 
     if (error) {
       return NextResponse.redirect(

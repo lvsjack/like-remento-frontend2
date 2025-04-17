@@ -6,6 +6,9 @@ export default async function Dashboard() {
   const supabase = createClient();
   const [user] = await Promise.all([getUser(supabase)]);
 
+  console.log('userrrrrrrrrrrrrrrrrrr', user);
+  console.log(JSON.stringify(user));
+
   if (!user) {
     return redirect('/dashboard/signin');
   } else {

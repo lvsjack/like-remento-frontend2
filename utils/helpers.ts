@@ -2,25 +2,37 @@ import { Database } from '@/types/types_db';
 
 type Price = Database['public']['Tables']['prices']['Row'];
 
-export const getURL = (path?: string) => {
-  let url =
-    process?.env?.NEXT_PUBLIC_SITE_URL ?? // Set this to your site URL in production env.
-    process?.env?.NEXT_PUBLIC_VERCEL_URL ?? // Automatically set by Vercel.
-    'http://localhost:3000/';
-  // Make sure to include `https://` when not localhost.
-  url = url.includes('http') ? url : `https://${url}`;
-  // Make sure to including trailing `/`.
-  url = url.charAt(url.length - 1) === '/' ? url : `${url}/`;
+export function getURL(path: string) {
+  // 1. 获取基础 URL
+  let baseURL =
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.NEXT_PUBLIC_VERCEL_URL ||
+    'http://localhost:3000';
 
-  if (path) {
-    path = path.replace(/^\/+/, '');
-
-    // Concatenate the URL and the path.
-    return path ? `${url}/${path}` : url;
+  // 2. 确保 baseURL 有 https:// 前缀
+  if (!baseURL.startsWith('http://') && !baseURL.startsWith('https://')) {
+    baseURL = `https://${baseURL}`;
   }
 
-  return url;
-};
+  // 3. 确保 baseURL 末尾没有斜杠
+  baseURL = baseURL.replace(/\/$/, '');
+
+  // 4. 确保 path 开头有斜杠
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+
+  const fullURL = `${baseURL}${normalizedPath}`;
+
+  console.log('getURL debug:', {
+    path,
+    baseURL,
+    normalizedPath,
+    SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    VERCEL_URL: process.env.NEXT_PUBLIC_VERCEL_URL,
+    fullURL
+  });
+
+  return fullURL;
+}
 
 export const postData = async ({
   url,
@@ -48,7 +60,7 @@ export const postData = async ({
 };
 
 export const toDateTime = (secs: number) => {
-  var t = new Date('1970-01-01T00:30:00Z'); // Unix epoch start.
+  const t = new Date('1970-01-01T00:30:00Z'); // Unix epoch start.
   t.setSeconds(secs);
   return t;
 };
