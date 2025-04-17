@@ -61,7 +61,7 @@ export default function DefaultAuthLayout(props: DefaultAuthLayoutProps) {
             </div> */}
           </div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </div>
       <Button
         className="absolute bottom-10 right-10 flex min-h-10 min-w-10 cursor-pointer rounded-full bg-zinc-950 p-0 text-xl text-white hover:bg-zinc-950 dark:bg-white dark:text-zinc-950 hover:dark:bg-white xl:bg-white xl:text-zinc-950 xl:hover:bg-white xl:dark:text-zinc-900"
