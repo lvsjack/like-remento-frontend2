@@ -7,6 +7,7 @@ import DashboardLayout from '@/components/layout';
 import { UserDetails } from '@/types/types';
 import { User } from '@supabase/supabase-js';
 import { useModal } from '@/components/modal/modal-context';
+import Link from 'next/link';
 
 interface Prompt {
   id: string;
@@ -97,9 +98,16 @@ export default function Prompts(props: Props) {
                     key={prompt.id}
                     prompt={prompt}
                     actionButton={
-                      <Button variant="outline" size="sm">
-                        Record
-                      </Button>
+                      <Link
+                        href={`/record/${prompt.id}`}
+                        passHref
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button variant="outline" size="sm">
+                          Record
+                        </Button>
+                      </Link>
                     }
                   />
                 ))}

@@ -26,8 +26,8 @@ export function StoryCard({
   return (
     <Card
       className={cn(
-        'group relative h-[260px] w-full overflow-hidden bg-white transition-all duration-300',
-        'hover:shadow-[0_0_50px_0_rgba(0,0,0,0.1)]',
+        'group relative h-[260px] w-full overflow-hidden bg-background transition-all duration-300',
+        'hover:shadow-[0_0_50px_0_rgba(0,0,0,0.1)] dark:hover:shadow-[0_0_50px_0_rgba(0,0,0,0.3)]',
         className
       )}
     >
@@ -36,7 +36,7 @@ export function StoryCard({
         <Button
           size="icon"
           variant="ghost"
-          className="h-8 w-8 rounded-full bg-white/80 backdrop-blur-sm"
+          className="h-8 w-8 rounded-full bg-background/80 backdrop-blur-sm"
         >
           <MoreVertical className="h-4 w-4" />
         </Button>
@@ -52,32 +52,32 @@ export function StoryCard({
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
       </div>
 
       {/* Content Section */}
       <div className="relative flex h-[35%] flex-col justify-between p-4">
         {/* Title */}
-        <h3 className="line-clamp-2 text-base font-semibold leading-tight text-gray-900">
+        <h3 className="line-clamp-2 text-base font-semibold leading-tight text-foreground">
           {title}
         </h3>
 
         {/* Author Info */}
-        <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+        <div className="flex items-center justify-between border-t border-border pt-3">
           <div className="flex items-center gap-3 justify-between w-full">
             <div className="flex items-center gap-2">
-              <Avatar className="h-7 w-7 border-2 border-white shadow-sm">
+              <Avatar className="h-7 w-7 border-2 border-background shadow-sm">
                 <AvatarImage src={author.avatar} alt={author.name} />
-                <AvatarFallback className="bg-gradient-to-br from-violet-500 to-purple-500 text-white">
+                <AvatarFallback className="bg-gradient-to-br from-violet-500 to-purple-500 text-background">
                   {author.name[0]}
                 </AvatarFallback>
               </Avatar>
-              <div className="text-sm font-medium text-gray-900">
+              <div className="text-sm font-medium text-foreground">
                 {author.name}
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                 <Clock className="h-3 w-3" />
                 <span>{date}</span>
               </div>
@@ -87,7 +87,7 @@ export function StoryCard({
       </div>
 
       {/* Hover Overlay */}
-      <div className="absolute inset-0 bg-black/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+      <div className="absolute inset-0 bg-foreground/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
     </Card>
   );
 }
