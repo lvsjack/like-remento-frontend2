@@ -19,13 +19,22 @@ const STORY_CARDS = [
   {
     imageUrl:
       'https://images.unsplash.com/photo-1631947430066-48c30d57b943?q=80&w=3716&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    title:
-      'Hand opacity boolean image style distribute. Outline blur layer image subtract project bullet variant distribute vertical.',
+    title: 'This is a test title',
     author: {
       name: 'John Doe',
       avatar: 'https://github.com/shadcn.png'
     },
-    date: '2023-01-01'
+    date: '2023-01-01',
+    content: 'This is a test content',
+    prompt: {
+      type: 'photo',
+      content: 'This is a test prompt',
+      author: {
+        name: 'John Doe',
+        avatar: 'https://avatar.iran.liara.run/public/75'
+      },
+      date: '2023-01-01'
+    }
   }
   // ... 可以添加更多卡片数据
 ];
@@ -52,8 +61,10 @@ export default function Dashboard(props: Props) {
                   <StoryCard
                     imageUrl={card.imageUrl}
                     title={card.title}
+                    content={card.content}
                     author={card.author}
                     date={card.date}
+                    prompt={card.prompt}
                   />
                 </div>
               </div>
